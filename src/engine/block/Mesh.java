@@ -23,7 +23,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class BlockMesh {
+public class Mesh {
 
     private final int vaoId;
     private final int posVboId;
@@ -31,13 +31,12 @@ public class BlockMesh {
     private final int idxVboId;
     private final int vertexCount;
 
-    public BlockMesh(float[] positions, float[] colours, int[] indices) {
+    public Mesh(float[] positions, float[] colours, int[] indices) {
         FloatBuffer posBuffer = null;
         FloatBuffer colourBuffer = null;
         IntBuffer indicesBuffer = null;
         try {
             vertexCount = indices.length;
-
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
 
@@ -65,7 +64,6 @@ public class BlockMesh {
             indicesBuffer.put(indices).flip();
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVboId);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
-
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
         } finally {

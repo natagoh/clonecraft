@@ -1,16 +1,16 @@
 package engine;
 
 import org.joml.Vector3f;
-import engine.block.BlockMesh;
+import engine.block.Mesh;
 
 public class GameItem {
 
-    private final BlockMesh mesh;
+    private final Mesh mesh;
     private final Vector3f position;
     private float scale;
     private final Vector3f rotation;
 
-    public GameItem(BlockMesh mesh) {
+    public GameItem(Mesh mesh) {
         this.mesh = mesh;
         position = new Vector3f();
         scale = 1;
@@ -45,7 +45,7 @@ public class GameItem {
         this.rotation.z = z;
     }
     
-    public BlockMesh getBlockMesh() {
+    public Mesh getMesh() {
         return mesh;
     }
 }
