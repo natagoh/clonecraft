@@ -31,7 +31,7 @@ public class Mesh {
     private final int idxVboId;
     private final int vertexCount;
 
-    public Mesh(float[] positions, float[] colours, int[] indices) {
+    public Mesh(float[] positions, float[] colors, int[] indices) {
         FloatBuffer posBuffer = null;
         FloatBuffer colourBuffer = null;
         IntBuffer indicesBuffer = null;
@@ -51,8 +51,8 @@ public class Mesh {
 
             // Color VBO
             colourVboId = glGenBuffers();
-            colourBuffer = MemoryUtil.memAllocFloat(colours.length);
-            colourBuffer.put(colours).flip();
+            colourBuffer = MemoryUtil.memAllocFloat(colors.length);
+            colourBuffer.put(colors).flip();
             glBindBuffer(GL_ARRAY_BUFFER, colourVboId);
             glBufferData(GL_ARRAY_BUFFER, colourBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(1);

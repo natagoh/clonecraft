@@ -9,14 +9,14 @@ import engine.IGameLogic;
 import engine.Window;
 import engine.block.Mesh;
 
-public class DummyGame implements IGameLogic {
+public class Clonecraft implements IGameLogic {
 
     private int direction = 0;
     private float color = 0.0f;
     private final Renderer renderer;
     private GameItem[] gameItems;
     
-    public DummyGame() {
+    public Clonecraft() {
         renderer = new Renderer();
     }
     

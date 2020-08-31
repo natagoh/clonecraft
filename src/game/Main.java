@@ -8,8 +8,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             boolean vSync = true;
-            IGameLogic gameLogic = new DummyGame();
-            GameEngine gameEngine = new GameEngine("GAME", 600, 480, vSync, gameLogic);
+            IGameLogic gameLogic = new Clonecraft();
+            GameEngine gameEngine = new GameEngine("Clonecraft", 600, 480, vSync, gameLogic);
             gameEngine.run();
         } catch (Exception excp) {
             excp.printStackTrace();
