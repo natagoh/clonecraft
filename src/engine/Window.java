@@ -4,10 +4,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import static org.lwjgl.opengl.GL11.GL_FALSE;
-import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
@@ -26,6 +23,7 @@ public class Window {
         this.vSync = vSync;
         this.resized = false;
     }
+
 
     public void init() {
         // Setup an error callback. The default implementation
@@ -69,9 +67,9 @@ public class Window {
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         // Center our window
         glfwSetWindowPos(
-	        windowHandle,
-	        (vidmode.width() - width) / 2,
-	        (vidmode.height() - height) / 2
+                windowHandle,
+                (vidmode.width() - width) / 2,
+                (vidmode.height() - height) / 2
         );
 
         // Make the OpenGL context current
@@ -90,6 +88,11 @@ public class Window {
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    }
+
+    public long getWindowHandle() {
+        return windowHandle;
     }
 
     public void setClearColor(float r, float g, float b, float alpha) {
@@ -104,10 +107,6 @@ public class Window {
         return glfwWindowShouldClose(windowHandle);
     }
 
-    public long getWindowHandle() {
-    	return windowHandle;
-    }
-    
     public String getTitle() {
         return title;
     }

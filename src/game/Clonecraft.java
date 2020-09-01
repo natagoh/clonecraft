@@ -154,7 +154,7 @@ public class Clonecraft implements IGameLogic {
 
     @Override
     public void update(float interval, MouseInput mouseInput) {
-        // Update camera position
+    	// Update camera position
         camera.movePosition(cameraInc.x * CAMERA_POS_STEP,
         cameraInc.y * CAMERA_POS_STEP,
         cameraInc.z * CAMERA_POS_STEP);
@@ -162,7 +162,7 @@ public class Clonecraft implements IGameLogic {
         // Update camera based on mouse            
         if (mouseInput.isRightButtonPressed()) {
             Vector2f rotVec = mouseInput.getDisplVec();
-            System.out.println(rotVec.x + " " + rotVec.y);
+            System.out.println("mouse clicked" + rotVec.x + " " + rotVec.y);
             camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
         }
     }
