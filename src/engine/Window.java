@@ -104,6 +104,10 @@ public class Window {
         return glfwWindowShouldClose(windowHandle);
     }
 
+    public long getWindowHandle() {
+    	return windowHandle;
+    }
+    
     public String getTitle() {
         return title;
     }
