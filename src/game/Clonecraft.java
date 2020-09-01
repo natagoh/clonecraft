@@ -27,7 +27,7 @@ public class Clonecraft implements IGameLogic {
         renderer.init(window);
         
         // block mesh
-        float[] positions = new float[]{
+        float[] positions = new float[] {
             // V0
             -0.5f, 0.5f, 0.5f,
             // V1
@@ -71,8 +71,9 @@ public class Clonecraft implements IGameLogic {
             // V18: V1 repeated
             -0.5f, -0.5f, 0.5f,
             // V19: V2 repeated
-            0.5f, -0.5f, 0.5f,};
-        float[] texCoords = new float[]{
+            0.5f, -0.5f, 0.5f,
+        };
+        float[] texCoords = new float[] {
             0.0f, 0.0f,
             0.0f, 0.5f,
             0.5f, 0.5f,
@@ -96,8 +97,9 @@ public class Clonecraft implements IGameLogic {
             0.5f, 0.0f,
             1.0f, 0.0f,
             0.5f, 0.5f,
-            1.0f, 0.5f,};
-        int[] indices = new int[]{
+            1.0f, 0.5f,
+        };
+        int[] indices = new int[] {
             // Front face
             0, 1, 3, 3, 1, 2,
             // Top Face
@@ -109,7 +111,8 @@ public class Clonecraft implements IGameLogic {
             // Bottom face
             16, 18, 19, 17, 16, 19,
             // Back face
-            4, 6, 7, 5, 4, 7,};
+            4, 6, 7, 5, 4, 7,
+        };
 		Texture texture = new Texture("resources/textures/grass.png");
 		Mesh mesh = new Mesh(positions, texCoords, indices, texture);
 				
