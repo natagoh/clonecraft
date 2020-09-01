@@ -7,14 +7,14 @@ import org.joml.Matrix4f;
 import static org.lwjgl.opengl.GL20.*;
 import org.lwjgl.system.MemoryStack;
 
-public class ShaderProgram {
+public class Shader {
 
     private final int programId;
     private int vertexShaderId;
     private int fragmentShaderId;
     private final Map<String, Integer> uniforms;
 
-    public ShaderProgram() throws Exception {
+    public Shader() throws Exception {
         programId = glCreateProgram();
         if (programId == 0) {
             throw new Exception("Could not create Shader");
@@ -29,7 +29,11 @@ public class ShaderProgram {
         }
         uniforms.put(uniformName, uniformLocation);
     }
-
+    
+    public void setUniform(String uniformName, int value) {
+    	glUniform1i(uniforms.get(uniformName), value);
+    }
+    
     public void setUniform(String uniformName, Matrix4f value) {
         // Dump the matrix into a float buffer
         try (MemoryStack stack = MemoryStack.stackPush()) {

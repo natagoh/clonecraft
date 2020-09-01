@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import engine.GameItem;
 import engine.Window;
-import engine.block.ShaderProgram;
+import engine.block.Shader;
 import engine.block.Transformation;
 import engine.block.Utils;
 
@@ -20,7 +20,7 @@ public class Renderer {
     private static final float Z_NEAR = 0.01f;
     private static final float Z_FAR = 1000.f;
 
-    private ShaderProgram shaderProgram;
+    private Shader shader;
 	private Transformation transformation;
 
 	public Renderer() {   
@@ -29,15 +29,17 @@ public class Renderer {
     
     public void init(Window window) throws Exception {
         // Create shader
-        shaderProgram = new ShaderProgram();
-        shaderProgram.createVertexShader(Utils.loadResource("/vertex.vs"));
-        shaderProgram.createFragmentShader(Utils.loadResource("/fragment.fs"));
-        shaderProgram.link();
+        shader = new Shader();
+        // somehow code already knows parent dir is resoucres...
+        shader.createVertexShader(Utils.loadResource("/shaders/vertex.vs"));
+        shader.createFragmentShader(Utils.loadResource("/shaders/fragment.fs"));
+        shader.link();
         
         // Create uniforms for world and projection matrices
-        shaderProgram.createUniform("projectionMatrix");
-        shaderProgram.createUniform("worldMatrix");
-        
+        shader.createUniform("projectionMatrix");
+        shader.createUniform("worldMatrix");
+        shader.createUniform("texture_sampler");
+
         window.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     }
     
@@ -49,28 +51,37 @@ public class Renderer {
             window.setResized(false);
         }
 
-        shaderProgram.bind();
+        shader.bind();
         
         // Update projection Matrix
         Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
-        shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+        shader.setUniform("projectionMatrix", projectionMatrix);
+        
+        shader.setUniform("texture_sampler", 0);
         
         // Render each gameItem
         for (GameItem gameItem: gameItems) {
             // Set world matrix for this item
             Matrix4f worldMatrix = transformation.getWorldMatrix(
-                    gameItem.getPosition(),
-                    gameItem.getRotation(),
-                    gameItem.getScale());
-            shaderProgram.setUniform("worldMatrix", worldMatrix);
+                gameItem.getPosition(),
+                gameItem.getRotation(),
+                gameItem.getScale()
+            );
+            shader.setUniform("worldMatrix", worldMatrix);
             // Render the mesh for this game item
             gameItem.getMesh().render();
         }
 
-        shaderProgram.unbind();
+        shader.unbind();
     }
 
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+    
+    public void cleanup() {
+        if (shader != null) {
+            shader.cleanup();
+        }
     }
 }
