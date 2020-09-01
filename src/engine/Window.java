@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -88,6 +89,7 @@ public class Window {
 
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glEnable(GL_DEPTH_TEST);
     }
 
     public void setClearColor(float r, float g, float b, float alpha) {
