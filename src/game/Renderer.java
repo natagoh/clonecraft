@@ -10,8 +10,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import engine.GameItem;
 import engine.Window;
-import engine.block.Shader;
-import engine.block.Utils;
+import engine.primitives.Shader;
+import engine.primitives.Utils;
 import engine.view.Camera;
 import engine.view.Transformation;
 
@@ -54,39 +54,18 @@ public class Renderer {
 
         shader.bind();
         
-//        // Update projection Matrix
-//        Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
-//        shader.setUniform("projectionMatrix", projectionMatrix);
-//        
-//        shader.setUniform("texture_sampler", 0);
-//        
-//        // Render each gameItem
-//        for (GameItem gameItem: gameItems) {
-//            // Set world matrix for this item
-//            Matrix4f worldMatrix = transformation.getWorldMatrix(
-//                gameItem.getPosition(),
-//                gameItem.getRotation(),
-//                gameItem.getScale()
-//            );
-//            shader.setUniform("worldMatrix", worldMatrix);
-//            // Render the mesh for this game item
-//            gameItem.getMesh().render();
-//        }
-        
         // Update projection Matrix
         Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
         shader.setUniform("projectionMatrix", projectionMatrix);
 
         // Update view Matrix
         Matrix4f viewMatrix = transformation.getViewMatrix(camera);
-
         shader.setUniform("texture_sampler", 0);
+        
         // Render each gameItem
         for(GameItem gameItem: gameItems) {
-            // Set model view matrix for this item
             Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
             shader.setUniform("modelViewMatrix", modelViewMatrix);
-            // Render the mesh for this game item
             gameItem.getMesh().render();
         }
         

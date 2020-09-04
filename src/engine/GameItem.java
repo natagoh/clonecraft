@@ -1,7 +1,8 @@
 package engine;
 
 import org.joml.Vector3f;
-import engine.block.Mesh;
+
+import engine.primitives.Mesh;
 
 public class GameItem {
 

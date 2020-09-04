@@ -24,20 +24,23 @@ public class Transformation {
     }
     
     public Matrix4f getWorldMatrix(Vector3f offset, Vector3f rotation, float scale) {
-        return worldMatrix.translation(offset).
-            rotateX((float) Math.toRadians(rotation.x)).
-            rotateY((float) Math.toRadians(rotation.y)).
-            rotateZ((float) Math.toRadians(rotation.z)).
-            scale(scale);
+        return worldMatrix
+        			.translation(offset)
+		            .rotateX((float) Math.toRadians(rotation.x))
+		            .rotateY((float) Math.toRadians(rotation.y))
+		            .rotateZ((float) Math.toRadians(rotation.z))
+		            .scale(scale);
     }
     
     public Matrix4f getModelViewMatrix(GameItem gameItem, Matrix4f viewMatrix) {
         Vector3f rotation = gameItem.getRotation();
-        modelViewMatrix.identity().translate(gameItem.getPosition()).
-            rotateX((float)Math.toRadians(-rotation.x)).
-            rotateY((float)Math.toRadians(-rotation.y)).
-            rotateZ((float)Math.toRadians(-rotation.z)).
-            scale(gameItem.getScale());
+        modelViewMatrix
+        	.identity()
+        	.translate(gameItem.getPosition())
+        	.rotateX((float) Math.toRadians(-rotation.x))
+            .rotateY((float) Math.toRadians(-rotation.y))
+            .rotateZ((float) Math.toRadians(-rotation.z))
+            .scale(gameItem.getScale());
         Matrix4f viewCurr = new Matrix4f(viewMatrix);
         return viewCurr.mul(modelViewMatrix);
     }
@@ -47,9 +50,11 @@ public class Transformation {
         Vector3f rotation = camera.getRotation();
 
         viewMatrix.identity();
+        
         // First do the rotation so camera rotates over its position
-        viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
-            .rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
+        viewMatrix
+        	.rotate((float) Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
+            .rotate((float) Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
         // Then do the translation
         viewMatrix.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
         return viewMatrix;

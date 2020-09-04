@@ -3,6 +3,7 @@ package engine;
 import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -13,6 +14,11 @@ public class Window {
     private int width;
     private int height;
     private long windowHandle;
+    private GLFWWindowSizeCallback sizeCallback;
+    private Input input;
+    
+    private int frames;
+	private static long time;
     private boolean resized;
     private boolean vSync;
 
@@ -34,7 +40,11 @@ public class Window {
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
-
+        
+        // initialize input
+        input = new Input();
+        
+        
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
@@ -56,15 +66,16 @@ public class Window {
             this.setResized(true);
         });
 
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-            }
-        });
+//        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+//        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
+//            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+//                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+//            }
+//        });
 
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        
         // Center our window
         glfwSetWindowPos(
                 windowHandle,
@@ -88,9 +99,28 @@ public class Window {
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
+        
+        // bind key/mouse callbacks
+        bindCallbacks();
         //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     }
-
+    
+    private void bindCallbacks() {
+		sizeCallback = new GLFWWindowSizeCallback() {
+			public void invoke(long window, int w, int h) {
+				width = w;
+				height = h;
+				resized = true;
+			}
+		};
+		
+		glfwSetKeyCallback(windowHandle, input.getKeyboardCallback());
+		glfwSetCursorPosCallback(windowHandle, input.getMouseMoveCallback());
+		glfwSetMouseButtonCallback(windowHandle, input.getMouseButtonsCallback());
+		glfwSetScrollCallback(windowHandle, input.getMouseScrollCallback());
+		glfwSetWindowSizeCallback(windowHandle, sizeCallback);
+	}
+    
     public long getWindowHandle() {
         return windowHandle;
     }
@@ -134,9 +164,33 @@ public class Window {
     public void setvSync(boolean vSync) {
         this.vSync = vSync;
     }
-
-    public void update() {
-        glfwSwapBuffers(windowHandle);
-        glfwPollEvents();
+    
+    // lock mouse cursor
+    public void disableCursor(boolean lock) {
+    	glfwSetInputMode(windowHandle, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED: GLFW_CURSOR_NORMAL);
     }
+ 		
+ 		
+//    public void update() {
+//        glfwSwapBuffers(windowHandle);
+//        glfwPollEvents();
+//    }
+    
+	public void update() {
+//		glfwSwapBuffers(windowHandle);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glfwPollEvents();
+		frames++;
+		if (System.currentTimeMillis() > time + 1000) {
+			glfwSetWindowTitle(windowHandle, title + " | FPS: " + frames);
+			time = System.currentTimeMillis();
+			frames = 0;
+		}
+	}
+	
+	public void swapBuffer() { 
+		glfwSwapBuffers(windowHandle);
+	}
+
+
 }

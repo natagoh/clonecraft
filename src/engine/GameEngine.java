@@ -1,19 +1,15 @@
 package engine;
 
-public class GameEngine implements Runnable {
+import org.lwjgl.glfw.GLFW;
 
-    public static final int TARGET_FPS = 75;
-    public static final int TARGET_UPS = 30;
-    private final Window window;
-    private MouseInput mouseInput;
-    private final Timer timer;
+public class GameEngine implements Runnable {
+    
+    private final Window window;    
     private final IGameLogic gameLogic;
 
     public GameEngine(String windowTitle, int width, int height, boolean vSync, IGameLogic gameLogic) throws Exception {
         window = new Window(windowTitle, width, height, vSync);
-        mouseInput = new MouseInput();
         this.gameLogic = gameLogic;
-        timer = new Timer();
     }
 
     @Override
@@ -28,58 +24,30 @@ public class GameEngine implements Runnable {
 
     protected void init() throws Exception {
         window.init();
-        timer.init();
-        mouseInput.init(window);
+        
+        // lock cursor
+        window.disableCursor(true);
         gameLogic.init(window);
     }
 
     protected void gameLoop() {
-        float elapsedTime;
-        float accumulator = 0f;
-        float interval = 1f / TARGET_UPS;
-
         boolean running = true;
         while (running && !window.windowShouldClose()) {
-            elapsedTime = timer.getElapsedTime();
-            accumulator += elapsedTime;
-
-            input();
-
-            while (accumulator >= interval) {
-                update(interval);
-                accumulator -= interval;
-            }
-
+            update();
             render();
-
-            if (!window.isvSync()) {
-                sync();
+            if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
+            	return;
             }
         }
     }
-
-    private void sync() {
-        float loopSlot = 1f / TARGET_FPS;
-        double endTime = timer.getLastLoopTime() + loopSlot;
-        while (timer.getTime() < endTime) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ie) {
-            }
-        }
-    }
-
-    protected void input() {
-    	mouseInput.input(window);
-        gameLogic.input(window, mouseInput);
-    }
-
-    protected void update(float interval) {
-        gameLogic.update(interval, mouseInput);
+    
+    protected void update() {
+        gameLogic.update();
+        window.update();
     }
 
     protected void render() {
         gameLogic.render(window);
-        window.update();
+        window.swapBuffer();
     }
 }

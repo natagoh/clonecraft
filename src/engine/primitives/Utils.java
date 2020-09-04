@@ -1,4 +1,4 @@
-package engine.block;
+package engine.primitives;
 
 import java.io.InputStream;
 import java.util.Scanner;

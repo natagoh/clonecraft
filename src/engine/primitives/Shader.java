@@ -1,4 +1,4 @@
-package engine.block;
+package engine.primitives;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;

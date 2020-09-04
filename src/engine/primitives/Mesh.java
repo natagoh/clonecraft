@@ -1,4 +1,4 @@
-package engine.block;
+package engine.primitives;
 
 import org.lwjgl.system.MemoryUtil;
 
