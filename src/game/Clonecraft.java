@@ -16,23 +16,14 @@ import engine.view.FirstPersonCamera;
 
 public class Clonecraft implements IGameLogic {
 
-    private static final float MOUSE_SENSITIVITY = 0.2f;
-	private static final float CAMERA_POS_STEP = 0.05f;
 	private final Renderer renderer;
     private GameItem[] gameItems;
-    private Camera camera;
     private FirstPersonCamera fpvCamera;
-    
-    private final Vector3f cameraInc;
-	private Object newMouseX;
-	private Object newMouseY;
     
     public Clonecraft() {
         renderer = new Renderer();
-        camera = new Camera();
         fpvCamera = new FirstPersonCamera();
         Input input = new Input();
-        cameraInc = new Vector3f();
     }
     
     @Override
@@ -129,8 +120,8 @@ public class Clonecraft implements IGameLogic {
         gameItems = new GameItem[]{gameItem1, gameItem2, gameItem3, gameItem4, gameItem5};
     }
     
-    public void update() {
-    	fpvCamera.update();
+    public void update(float deltaTime) {
+    	fpvCamera.update(deltaTime);
     }
     
     @Override
