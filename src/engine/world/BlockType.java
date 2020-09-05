@@ -10,7 +10,7 @@ public enum BlockType {
 	AIR {
         @Override
         public String getTextureFile() {
-            return "resources/textures/grass.png";
+            return null;
         }
     };
 	

@@ -2,10 +2,10 @@ package engine.world;
 
 import org.joml.Matrix4f;
 
-import engine.GameItem;
 import engine.primitives.Shader;
 import engine.view.Transformation;
 
+// TODO: put all block meshes in a chunk in a single VAO
 public class Chunk {
 
 	static final int CHUNK_SIZE = 16;
