@@ -107,7 +107,6 @@ public class Mesh {
 
         // Draw the mesh
         glBindVertexArray(getVaoId());
-
         glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 
         // Restore state

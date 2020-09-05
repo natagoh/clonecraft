@@ -1,6 +1,13 @@
 package engine.world;
 
 public enum BlockType {
-	GRASS,
-	DIRT
+	GRASS {
+        @Override
+        public String getTextureFile() {
+            return "resources/textures/grass.png";
+        }
+    };
+	
+
+	public abstract String getTextureFile();
 }

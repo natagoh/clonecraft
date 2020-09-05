@@ -4,18 +4,15 @@ import engine.GameItem;
 import engine.primitives.Mesh;
 import engine.primitives.Texture;
 
-public class Block {
+public class Block extends GameItem {
 	private BlockType blockType;
-	private Mesh mesh;
-	private GameItem gameItem;
 	
 	public Block(BlockType blockType) {
+		super(createBlockMesh(blockType));
 		this.blockType = blockType;
-		mesh = createBlockMesh(blockType);
-		gameItem = new GameItem(mesh);
 	}
 	
-	private Mesh createBlockMesh(BlockType blockType) {
+	private static Mesh createBlockMesh(BlockType blockType) {
 		// block mesh
 	    float[] positions = new float[] {
 	        -0.5f, 0.5f, 0.5f,		// V0
@@ -77,13 +74,9 @@ public class Block {
 	        16, 18, 19, 17, 16, 19,	// Bottom face
 	        4, 6, 7, 5, 4, 7,		// Back face
 	    };
-		Texture texture = new Texture("resources/textures/grass.png");
+		Texture texture = new Texture(blockType.getTextureFile());
 		Mesh mesh = new Mesh(positions, texCoords, indices, texture);
 		return mesh;
-	}
-	
-	public GameItem getGameItem() {
-		return gameItem;
 	}
 	
 }
