@@ -13,7 +13,7 @@ import engine.Input;
 
 public class FirstPersonCamera extends Camera {
 	
-	private static final float MOVE_SPEED = 2.5f;
+	private static final float MOVE_SPEED = 4.0f;
 	private static final float MOUSE_SENSITIVITY = 0.15f;
 	
 	private double oldMouseX = 0.0f;

@@ -36,9 +36,9 @@ public class Mesh {
     private final int vertexCount;
     private final Texture texture;
 
-    public Mesh(float[] positions, float[] textCoords, int[] indices, Texture texture) {
+    public Mesh(float[] positions, float[] texCoords, int[] indices, Texture texture) {
         FloatBuffer posBuffer = null;
-        FloatBuffer textCoordsBuffer = null;
+        FloatBuffer texCoordsBuffer = null;
         IntBuffer indicesBuffer = null;
         try {
             this.texture = texture;
@@ -60,10 +60,10 @@ public class Mesh {
             // Texture coordinates VBO
             vboId = glGenBuffers();
             vboIdList.add(vboId);
-            textCoordsBuffer = MemoryUtil.memAllocFloat(textCoords.length);
-            textCoordsBuffer.put(textCoords).flip();
+            texCoordsBuffer = MemoryUtil.memAllocFloat(texCoords.length);
+            texCoordsBuffer.put(texCoords).flip();
             glBindBuffer(GL_ARRAY_BUFFER, vboId);
-            glBufferData(GL_ARRAY_BUFFER, textCoordsBuffer, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, texCoordsBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 
@@ -81,8 +81,8 @@ public class Mesh {
             if (posBuffer != null) {
                 MemoryUtil.memFree(posBuffer);
             }
-            if (textCoordsBuffer != null) {
-                MemoryUtil.memFree(textCoordsBuffer);
+            if (texCoordsBuffer != null) {
+                MemoryUtil.memFree(texCoordsBuffer);
             }
             if (indicesBuffer != null) {
                 MemoryUtil.memFree(indicesBuffer);

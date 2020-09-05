@@ -15,6 +15,7 @@ public class Clonecraft implements IGameLogic {
 
 	private final Renderer renderer;
     private GameItem[] gameItems;
+    private Chunk[] chunks;
     private FirstPersonCamera fpvCamera;
     
     public Clonecraft() {
@@ -28,6 +29,7 @@ public class Clonecraft implements IGameLogic {
         renderer.init(window);
         Chunk chunk = new Chunk();
         gameItems = chunk.getBlocks();
+        chunks = new Chunk[]{chunk};
     }
     
     public void update(float deltaTime) {
@@ -36,7 +38,7 @@ public class Clonecraft implements IGameLogic {
     
     @Override
     public void render(Window window) {
-    	renderer.render(window, fpvCamera, gameItems);
+    	renderer.render(window, fpvCamera, chunks);
     }
     
     @Override

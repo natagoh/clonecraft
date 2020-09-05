@@ -6,6 +6,12 @@ public enum BlockType {
         public String getTextureFile() {
             return "resources/textures/grass.png";
         }
+    },
+	AIR {
+        @Override
+        public String getTextureFile() {
+            return "resources/textures/grass.png";
+        }
     };
 	
 

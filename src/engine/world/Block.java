@@ -79,4 +79,8 @@ public class Block extends GameItem {
 		return mesh;
 	}
 	
+	public BlockType getBlockType() {
+		return blockType;
+	}
+	
 }

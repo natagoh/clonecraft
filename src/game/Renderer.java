@@ -14,6 +14,7 @@ import engine.primitives.Shader;
 import engine.primitives.Utils;
 import engine.view.Camera;
 import engine.view.Transformation;
+import engine.world.Chunk;
 
 public class Renderer {
 	
@@ -44,7 +45,7 @@ public class Renderer {
         window.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     }
     
-    public void render(Window window, Camera camera, GameItem[] gameItems) {
+    public void render(Window window, Camera camera, Chunk[] chunks) {
         clear();
 
         if (window.isResized()) {
@@ -63,10 +64,10 @@ public class Renderer {
         shader.setUniform("texture_sampler", 0);
         
         // Render each gameItem
-        for(GameItem gameItem: gameItems) {
-            Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
-            shader.setUniform("modelViewMatrix", modelViewMatrix);
-            gameItem.getMesh().render();
+        for(Chunk chunk: chunks) {
+//            Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
+//            shader.setUniform("modelViewMatrix", modelViewMatrix);
+            chunk.render(shader, viewMatrix, transformation);
         }
         
         shader.unbind();
